@@ -1,8 +1,7 @@
-# Belmark WTP Workflows
+# 📂 Belmark Workflow Archive
 
-This repository contains documentation and exports for Esko Automation Engine workflows.
+Quick links to production documentation:
 
-## 📂 Workflows
-
-- [WTP PS Complete](./WTP%20PS%20Complete/README.md)
-- [WTP HP20K Film Complete](./WTP%20HP20K%20Film%20Complete/README.md)
+- 🚀 **[WTP PS Complete](./WTP%20PS%20Complete/README.md)** - Pressure Sensitive Label Logic
+- 🎞️ **[WTP HP20K Film Complete](./WTP%20HP20K%20Film%20Complete/README.md)** - Film & Flexible Packaging Logic
+- 🔌 **[Shared Resources](./Shared-Resources/README.md)** - Database & API Connections
