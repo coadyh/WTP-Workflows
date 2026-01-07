@@ -1,8 +1,6 @@
-# WTP Proofing v1.1
 
-Documentation for the PS Complete production workflow.
-sdgsdgsd
-
-[⬅️ Back to Master Menu](../../README.md)
-
-## 📝 Recent Change Log
+* **2026-01-07** - lots (coadyh)
+* **2026-01-06** - added links back to main menu (coadyh)
+* **2026-01-05** - Final global cleanup of system files (coadyh)
+* **2026-01-05** - adding folders and readme (coadyh)
+* **2026-01-05** - added readme (coadyh)
