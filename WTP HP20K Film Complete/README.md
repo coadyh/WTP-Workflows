@@ -24,3 +24,5 @@ a: Ensures the frame length matches the 20K's fixed repeat cycle. - 🔢 Validat
 
 3: **ink saturation check** / `Router` 🎨
 a: High-coverage check to prevent ink adhesion issues on film. - 🧪 Scans for total area coverage (TAC) exceeding **250%**.
+
+test
