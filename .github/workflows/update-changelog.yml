@@ -1,11 +1,11 @@
-name: Update Folder-Specific Changelogs
+name: Update Deep Hierarchical Changelogs
 
 on:
   push:
     branches:
       - main
     paths-ignore:
-      - "**/README.md" # Prevents the bot from triggering itself
+      - "**/README.md"
 
 jobs:
   update-readmes:
@@ -18,19 +18,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Update Sub-Folder READMEs
+      - name: Update All Sub-Folder READMEs
         run: |
-          for dir in $(find . -maxdepth 2 -not -path '*/.*' -type d); do
+          # 'find . -type d' looks through EVERY folder recursively
+          find . -not -path '*/.*' -type d | while read dir; do
             if [ -f "$dir/README.md" ]; then
+              echo "Checking folder: $dir"
+              
+              # Grabs ONLY commits that touched this specific directory
               LOG=$(git log -5 --pretty=format:"* **%as** - %s (%an)" -- "$dir")
+              
               if [ ! -z "$LOG" ]; then
+                # Escaping the log for the perl command
                 perl -i -0777 -pe "s/().*()/\$1\n$LOG\n\$2/s" "$dir/README.md"
               fi
             fi
           done
 
-      - name: Update Root README
+      - name: Update Master Root README
         run: |
+          # Master log of every single change in the repo
           LOG=$(git log -10 --pretty=format:"* **%as** - %s (%an)")
           perl -i -0777 -pe "s/().*()/\$1\n$LOG\n\$2/s" README.md
 
@@ -39,5 +46,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "docs: automated log update [skip ci]" || echo "No changes"
+          git commit -m "docs: automated recursive log update [skip ci]" || echo "No changes"
           git push
