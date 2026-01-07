@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "**/README.md" # Prevents the bot from triggering itself
 
 jobs:
   update-readmes:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,16 +20,10 @@ jobs:
 
       - name: Update Sub-Folder READMEs
         run: |
-          # Find all directories that contain a README.md
           for dir in $(find . -maxdepth 2 -not -path '*/.*' -type d); do
             if [ -f "$dir/README.md" ]; then
-              echo "Processing $dir..."
-              
-              # Get last 5 commits specifically for this folder
               LOG=$(git log -5 --pretty=format:"* **%as** - %s (%an)" -- "$dir")
-              
               if [ ! -z "$LOG" ]; then
-                # Inject only these specific commits into that folder's README
                 perl -i -0777 -pe "s/().*()/\$1\n$LOG\n\$2/s" "$dir/README.md"
               fi
             fi
@@ -33,7 +31,6 @@ jobs:
 
       - name: Update Root README
         run: |
-          # Keep the main root README as a "Master Log" of everything
           LOG=$(git log -10 --pretty=format:"* **%as** - %s (%an)")
           perl -i -0777 -pe "s/().*()/\$1\n$LOG\n\$2/s" README.md
 
@@ -42,5 +39,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "docs: automated multi-folder changelog update [skip ci]" || echo "No changes to commit"
+          git commit -m "docs: automated log update [skip ci]" || echo "No changes"
           git push
