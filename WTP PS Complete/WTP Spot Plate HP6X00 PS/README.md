@@ -18,3 +18,5 @@ This workflow automates the creation of technical spot plates (White, Silver, or
 2. **Ink Map**: Ensures the new plate is placed in the correct printing order.
 
 [⬅️ Back to Master Menu](../../README.md)
+
+## 📝 Recent Change Log
