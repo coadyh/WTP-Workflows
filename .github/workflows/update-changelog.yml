@@ -1,12 +1,12 @@
-name: Update Changelog in README
+name: Update Folder-Specific Changelogs
 
 on:
   push:
     branches:
-      - main # Or 'master' depending on your branch name
+      - main
 
 jobs:
-  update-readme:
+  update-readmes:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -14,18 +14,33 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Generate Log
+      - name: Update Sub-Folder READMEs
         run: |
-          # Grabs the last 10 commits in a clean format
-          LOG=$(git log -10 --pretty=format:"* **%as** - %s (%an)")
+          # Find all directories that contain a README.md
+          for dir in $(find . -maxdepth 2 -not -path '*/.*' -type d); do
+            if [ -f "$dir/README.md" ]; then
+              echo "Processing $dir..."
+              
+              # Get last 5 commits specifically for this folder
+              LOG=$(git log -5 --pretty=format:"* **%as** - %s (%an)" -- "$dir")
+              
+              if [ ! -z "$LOG" ]; then
+                # Inject only these specific commits into that folder's README
+                perl -i -0777 -pe "s/().*()/\$1\n$LOG\n\$2/s" "$dir/README.md"
+              fi
+            fi
+          done
 
-          # Use perl to swap the content between the placeholders in the README
+      - name: Update Root README
+        run: |
+          # Keep the main root README as a "Master Log" of everything
+          LOG=$(git log -10 --pretty=format:"* **%as** - %s (%an)")
           perl -i -0777 -pe "s/().*()/\$1\n$LOG\n\$2/s" README.md
 
       - name: Commit and Push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "docs: automated changelog update [skip ci]" || echo "No changes to commit"
+          git add .
+          git commit -m "docs: automated multi-folder changelog update [skip ci]" || echo "No changes to commit"
           git push
