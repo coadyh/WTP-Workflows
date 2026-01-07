@@ -1,4 +1,7 @@
 
+* **2026-01-07** - lots (coadyh)
+* **2026-01-07** - fixing changelog yaml to filter which workflow was changed (coadyh)
+* **2026-01-07** - docs: automated changelog update [skip ci] (github-actions[bot])
 * **2026-01-07** - added the change log to list changes at the bottom of the page (coadyh)
 * **2026-01-07** - added the word "duh" (coadyh)
 * **2026-01-06** - fixing formatting (coadyh)
@@ -6,6 +9,3 @@
 * **2026-01-06** - start of mapping S&R (coadyh)
 * **2026-01-06** - starting step and repeat steps (coadyh)
 * **2026-01-06** - added links back to main menu (coadyh)
-* **2026-01-06** - added link back to main menu (coadyh)
-* **2026-01-05** - ff (coadyh)
-* **2026-01-05** - added subworkflow links (coadyh)
